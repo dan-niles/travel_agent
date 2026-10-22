@@ -1,0 +1,3 @@
+[workspace]
+title = "Travel Agent"
+packages = ["travel_agent"]
