@@ -1,4 +1,5 @@
 import ballerina/ai;
+import ballerinax/ai.memory.mssql;
 
 final ai:Agent travelAgent = check new (
     systemPrompt = {
@@ -9,7 +10,10 @@ For each attraction, briefly mention what it is, its location (city or region), 
 If the user asks for more detail about a specific attraction, provide richer information using the lookup tool.
 If the user's message does not mention a country, politely ask them which country they are interested in.
 Keep recommendations accurate, concise, and well organized, using a short list format.`
-    },
-    model = check ai:getDefaultModelProvider(),
-    tools = [getCountryAttractions]
+    }, model = check ai:getDefaultModelProvider(), tools = [getCountryAttractions], memory = aiShorttermmemory
 );
+
+final mssql:ShortTermMemoryStore mssqlShorttermmemorystore = check new ({
+    database: ""
+});
+final ai:ShortTermMemory aiShorttermmemory = check new (mssqlShorttermmemorystore);
